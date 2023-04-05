@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket</title>
+</head>
+<body>
+
+
+<script>
+  const serverConfig = {
+    baseUrl: '',
+    wsServerPrefix: 'ws',
+    availableWSServerList: []
+  }
+
+  function initServerConfig() {
+    let host = window.location.host
+    let protocol = window.location.protocol
+    let baseUrl = protocol + '//' + host
+    serverConfig.baseUrl = baseUrl
+    console.log(baseUrl)
+  }
+
+  function refreshWSServerList() {
+  }
+
+  class Http {
+    static get(url, data, callback) {
+      this.request('GET', url, data, callback)
+    }
+
+    static post(url, data, callback) {
+      this.request('POST', url, data, callback)
+    }
+
+    static request(method, url, data, callback) {
+      let req = new XMLHttpRequest()
+      req.open(method, url)
+      req.send(data)
+      req.onreadystatechange = (e) => {
+        if (e.readyState === 4 && e.status === 200) {
+          callback(req.responseText)
+        } else {
+          console.log(`network error when request ${url}`)
+          console.log(e)
+        }
+      }
+    }
+  }
+
+  initServerConfig()
+</script>
+</body>
+</html>
