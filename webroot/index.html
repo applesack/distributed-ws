@@ -20,10 +20,18 @@
     let baseUrl = protocol + '//' + host
     serverConfig.baseUrl = baseUrl
     console.log(baseUrl)
+    refreshWSServerList()
   }
 
   function refreshWSServerList() {
-
+    console.log('refresh websocket server list')
+    Http.post(serverConfig.baseUrl + '/getWsServerList', data => {
+      if (Array.isArray(data)) {
+        serverConfig.availableWSServerList = []
+        serverConfig.availableWSServerList.push(data)
+        console.log(serverConfig.availableWSServerList)
+      }
+    })
   }
 
   class Http {
