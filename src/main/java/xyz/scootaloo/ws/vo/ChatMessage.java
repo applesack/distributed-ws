@@ -6,7 +6,9 @@ package xyz.scootaloo.ws.vo;
  */
 public class ChatMessage {
 
-    public int    userId;
-    public String message;
+    public  int    userId;
+    public  String message;
+    public  int    act;
+    private int    destination;
 
 }
