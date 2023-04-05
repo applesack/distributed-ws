@@ -2,7 +2,6 @@ package xyz.scootaloo.ws;
 
 import io.vertx.core.*;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -74,10 +73,8 @@ public class Launcher extends AbstractVerticle {
     private static Future<HttpServer> launchControlServer(int port) {
         var server = vertx.createHttpServer();
         var router = Router.router(vertx);
-        router.post("/getWsServerList").handler(ctx -> {
-            ctx.json(availableWSServerList());
-        });
-        router.route().handler(StaticHandler.create());
+        router.post("/getWsServerList").handler(ctx -> ctx.json(availableWSServerList()));
+        router.route().handler(StaticHandler.create().setIndexPage("index.html"));
         server.requestHandler(router);
         return server.listen(port);
     }
@@ -113,12 +110,12 @@ public class Launcher extends AbstractVerticle {
         bus.send(SERVER_COMPLETE, JsonObject.mapFrom(data));
     }
 
-    private static String availableWSServerList() {
-        var arr = new JsonArray();
+    private static List<String> availableWSServerList() {
+        var arr = new ArrayList<String>(availablePorts.size());
         for (Integer port : Launcher.availablePorts) {
             arr.add(joinUrl(port));
         }
-        return arr.encode();
+        return arr;
     }
 
     private static String joinUrl(int port) {
