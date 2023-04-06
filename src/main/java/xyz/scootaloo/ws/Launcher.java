@@ -5,6 +5,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
+import xyz.scootaloo.ws.config.Config;
 import xyz.scootaloo.ws.server.WebSocketServer;
 
 import java.util.ArrayList;
@@ -45,15 +46,17 @@ public class Launcher extends AbstractVerticle {
             var sc = body.mapTo(ServerComplete.class);
             if (sc.success) {
                 // 端口监听成功
-                System.out.printf("[%d] <== %s\n", sc.port, "ok");
+                System.out.printf("[%d] ==> %s ~ %s\n", sc.port, "ok", joinUrl(sc.port));
                 availablePorts.add(sc.port);
             } else {
                 // 端口监听失败
-                System.out.printf("[%d] <== %s reason: %s\n", sc.port, "fail", sc.reason);
+                System.out.printf("[%d] ==> %s reason: %s\n", sc.port, "fail", sc.reason);
             }
         });
 
         var range = new Range(7000, 7010);
+
+        var configFut = Config.load(vertx);
 
         // 启动一个控制服务
         var ctrlFut = launchControlServer(range.start);
@@ -61,7 +64,7 @@ public class Launcher extends AbstractVerticle {
         // 启动多个ws服务器
         var wsFut = launchWsServers(range.start + 1, range.end);
 
-        ctrlFut.compose(ignore -> wsFut).onComplete(done -> {
+        configFut.compose(v -> ctrlFut.compose(ignore -> wsFut)).onComplete(done -> {
             if (done.succeeded()) {
                 startPromise.complete();
             } else {
@@ -83,7 +86,7 @@ public class Launcher extends AbstractVerticle {
 
     private static CompositeFuture launchWsServers(int start, int end) {
         List<Future<HttpServer>> futures = new ArrayList<>(end - start + 1);
-        for (int port = start; port < end; port++) {
+        for (int port = start; port <= end; port++) {
             futures.add(launchWsServer(port));
         }
         return CompositeFuture.join(futures.stream().map(f -> f.transform(done -> {
