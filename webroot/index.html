@@ -1,63 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>WebSocket</title>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
 </head>
-<body>
+<body style="margin: 0; padding: 0">
+
+<div style="border: 4px solid black; width: 500px; padding-bottom: 10px; padding-left: 5px; padding-top: 10px; margin: 20px auto">
+    <label>
+        <input id="link-input" placeholder="输入链接地址">
+        <input id="user-input" style="width: 80px" placeholder="输入用户名">
+    </label>
+    <button id="open-conn" style="float: right; margin-right: 10px; margin-left: 5px">打开链接</button>
+    <button id="close-conn" style="float: right">关闭链接</button>
+
+    <br>
+
+    <label>当前状态: </label>
+    <label id="cur-state"></label>
+
+    <br>
+
+    <label>当前用户: </label>
+    <label id="cur-user"></label>
+
+    <br>
+
+    <label>
+<textarea id="receive-input" style="width: 485px; height: 400px">
+
+</textarea>
+    </label>
+
+    <br>
+
+    <label>
+        <input id="message-input" placeholder="发送消息">
+        <input id="target-input" style="width: 60px" placeholder="发送给">
+        <input id="message-type" style="width: 40px" placeholder="类型">
+    </label>
+    <button id="send-btn" style="float: right; margin-right: 10px">发送</button>
+    <button id="clear-btn" style="float: right; margin-right: 5px">清空</button>
+</div>
 
 <script>
-  const serverConfig = {
-    baseUrl: '',
-    wsServerPrefix: 'ws',
-    availableWSServerList: []
-  }
-
-  function initServerConfig() {
-    let host = window.location.host
-    let protocol = window.location.protocol
-    let baseUrl = protocol + '//' + host
-    serverConfig.baseUrl = baseUrl
-    console.log(baseUrl)
-    refreshWSServerList()
-  }
-
-  function refreshWSServerList() {
-    console.log('refresh websocket server list')
-    Http.post(serverConfig.baseUrl + '/getWsServerList', data => {
-      if (Array.isArray(data)) {
-        serverConfig.availableWSServerList = []
-        serverConfig.availableWSServerList.push(data)
-        console.log(serverConfig.availableWSServerList)
-      }
-    })
-  }
-
-  class Http {
-    static get(url, data, callback) {
-      this.request('GET', url, data, callback)
+    const serverConfig = {
+        baseUrl: '',
+        wsServerPrefix: 'ws',
+        availableWSServerList: []
     }
 
-    static post(url, data, callback) {
-      this.request('POST', url, data, callback)
+    function initServerConfig() {
+        let host = window.location.host
+        let protocol = window.location.protocol
+        let baseUrl = protocol + '//' + host
+        serverConfig.baseUrl = baseUrl
+        console.log(baseUrl)
+        refreshWSServerList()
+        bindListeners()
     }
 
-    static request(method, url, data, callback) {
-      let req = new XMLHttpRequest()
-      req.open(method, url)
-      req.send(data)
-      req.onreadystatechange = (e) => {
-        if (e.readyState === 4 && e.status === 200) {
-          callback(req.responseText)
-        } else {
-          console.log(`network error when request ${url}`)
-          console.log(e)
+    function bindListeners() {
+        document.onreadystatechange = () => {
+            if (document.readyState === 'complete') {
+                bindBtnClickListener()
+            }
         }
-      }
     }
-  }
 
-  initServerConfig()
+    function bindBtnClickListener() {
+        // link-input 链接输入框
+        // user-input 用户输入框
+        // open-conn  打开链接按钮 --------------------
+        // close-conn 关闭链接按钮 --------------------
+        // cur-state  当前状态标签
+        // cur-user   当前用户标签
+        // receive-input 接收文本框
+        // message-input 待发送输入框
+        // target-input  目标对象输入框
+        // message-type  消息类型输入框
+        // send-btn      发送消息按钮 -----------------
+        // clear-btn     请求输入按钮 -----------------
+        document.getElementById('open-conn').addEventListener('click', () => {
+            Control.openConn()
+        })
+        document.getElementById('close-conn').addEventListener('click', () => {
+            Control.closeConn()
+        })
+        document.getElementById('send-btn').addEventListener('click', () => {
+            Control.send()
+        })
+        document.getElementById('clear-btn').addEventListener('click', () => {
+            Control.clear()
+        })
+        Text.changeStateUnConn()
+    }
+
+    function refreshWSServerList() {
+        console.log('refresh websocket server list')
+        Http.post(serverConfig.baseUrl + '/getWsServerList', data => {
+            if (Array.isArray(data)) {
+                serverConfig.availableWSServerList = []
+                serverConfig.availableWSServerList.push(data)
+                console.log(serverConfig.availableWSServerList)
+            }
+        })
+    }
+
+    class Text {
+        static getUrl(nonEmpty = true) {
+            return this.__getInputById('link-input', '连接地址未输入', nonEmpty)
+        }
+
+        static getUserName(nonEmpty = true) {
+            return this.__getInputById('user-input', '用户地址未输入', nonEmpty)
+        }
+
+        static changeState(state) {
+            let dom = document.getElementById('cur-state')
+            dom.innerText = state
+        }
+
+        static changeCurUser(user) {
+            let dom = document.getElementById('cur-user')
+            dom.innerText = user
+        }
+
+        static getSendText(nonEmpty = false) {
+            return this.__getInputById('message-input', '发送内容不能为空', nonEmpty)
+        }
+
+        static getTargetText(nonEmpty = true) {
+            return this.__getInputById('target-input', '发送目标不能为空', nonEmpty)
+        }
+
+        static getSendType(nonEmpty = true) {
+            return this.__getInputById('message-type', '发送类型不能为空', nonEmpty)
+        }
+
+        static appendNewMessage(text) {
+            let dom = document.getElementById('receive-input')
+            let content = dom.value
+            dom.value = (content + text)
+        }
+
+        static clearSendMessage() {
+            let dom = document.getElementById('message-input')
+            dom.value = ''
+        }
+
+        static changeStateUnConn() {
+            this.changeCurUser('未登录')
+            this.changeState('未连接')
+        }
+
+        static changeLoginSuccess(username, conn) {
+            this.appendNewMessage(`用户[${username}]登录成功\n`)
+            this.changeState(`已连接 ${conn}`)
+            this.changeCurUser(username)
+        }
+
+        static __getInputById(id, errMsg, nonEmpty) {
+            let content = document.getElementById(id).value
+            if (content.length === 0 && nonEmpty) {
+                let msg = errMsg
+                alert(msg)
+                throw msg
+            }
+            return content
+        }
+    }
+
+    class Control {
+        static closeConn() {
+            WS.close()
+        }
+
+        static openConn() {
+            let url = Text.getUrl()
+            WS.open(url)
+        }
+
+        static clear() {
+            Text.clearSendMessage()
+        }
+
+        static send() {
+            if (!WS.isOpen()) {
+                alert('连接未打开')
+                return
+            }
+            let target = Text.getTargetText()
+            let type = Text.getSendType()
+            let data = Text.getSendText()
+            WS.send(target, type, data, () => {
+            })
+        }
+    }
+
+    class WS {
+
+        static __isOpen;
+        static __ws
+        static __connUrl
+        static __username
+
+        static isOpen() {
+            return this.__isOpen
+        }
+
+        static close() {
+            if (!this.__isOpen) {
+                return
+            }
+            this.__ws.close()
+            this.__isOpen = false;
+            Text.changeStateUnConn()
+        }
+
+        static open(url) {
+            close()
+            if ('WebSocket' in window) {
+                try {
+                    this.__ws = new WebSocket(url)
+                    this.__isOpen = true
+                    this.__connUrl = url
+                    this.__username = Text.getUserName()
+                    this.__bindCallback()
+                } catch (e) {
+                    alert('创建链接失败')
+                }
+            } else {
+                alert('浏览器不支持websocket')
+            }
+        }
+
+        static send(target, type, data, callback) {
+            if (!this.__isOpen) {
+                alert('未连接')
+                return
+            }
+            this.__ws.send(JSON.stringify({
+                username: this.__username,
+                message: data,
+                act: type,
+                destinations: [target]
+            }))
+            if (callback !== null) {
+                callback()
+            }
+        }
+
+        static __bindCallback() {
+            this.__ws.onopen = () => {
+                this.send(Text.getTargetText(false), Text.getSendType(false), Text.getSendText(), () => {
+                    Text.changeLoginSuccess(this.__username, this.__connUrl)
+                })
+            }
+            this.__ws.onmessage = (e) => {
+                let json = JSON.parse(e.data)
+                console.log(json)
+                Text.appendNewMessage(`接收[${json.source}]: ${json.message}\n`)
+            }
+            this.__ws.onclose = () => {
+                this.__isOpen = false
+                Text.changeStateUnConn()
+            }
+            this.__ws.onerror = (e) => {
+                alert(e)
+                console.log(e)
+            }
+        }
+    }
+
+    class Http {
+        static get(url, data, callback) {
+            this.request('GET', url, data, callback)
+        }
+
+        static post(url, data, callback) {
+            this.request('POST', url, data, callback)
+        }
+
+        static request(method, url, data, callback) {
+            let req = new XMLHttpRequest()
+            req.open(method, url)
+            req.send(data)
+            req.onreadystatechange = (e) => {
+                if (e.status === 200) {
+                    callback(req.responseText)
+                }
+            }
+        }
+    }
+
+    initServerConfig()
 </script>
 </body>
 </html>

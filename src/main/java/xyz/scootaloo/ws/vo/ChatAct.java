@@ -6,6 +6,7 @@ package xyz.scootaloo.ws.vo;
  */
 public enum ChatAct {
 
+    LOGIN,
     NORMAL,
     P2P,
     BROADCAST;
@@ -13,13 +14,16 @@ public enum ChatAct {
     public static ChatAct valueOf(int type) {
         switch (type) {
             case 0 -> {
-                return ChatAct.NORMAL;
+                return ChatAct.LOGIN;
             }
             case 1 -> {
                 return ChatAct.P2P;
             }
             case 2 -> {
                 return ChatAct.BROADCAST;
+            }
+            case 3 -> {
+                return ChatAct.NORMAL;
             }
             default -> throw new IllegalStateException("Unexpected value: " + type);
         }
