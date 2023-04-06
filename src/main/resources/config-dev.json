@@ -1,5 +1,6 @@
 {
   "rabbit-url": "",
   "rabbit-user": "",
-  "rabbit-pass": ""
+  "rabbit-pass": "",
+  "mode": "s"
 }

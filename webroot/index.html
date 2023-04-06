@@ -199,6 +199,7 @@
             let type = Text.getSendType()
             let data = Text.getSendText()
             WS.send(target, type, data, () => {
+                Text.appendNewMessage(`发送 ==> 给[${target}]: ${data}\n`)
             })
         }
     }
@@ -266,7 +267,7 @@
             this.__ws.onmessage = (e) => {
                 let json = JSON.parse(e.data)
                 console.log(json)
-                Text.appendNewMessage(`接收[${json.source}]: ${json.message}\n`)
+                Text.appendNewMessage(`接收 <== 来自[${json.source}]: ${json.message}\n`)
             }
             this.__ws.onclose = () => {
                 this.__isOpen = false

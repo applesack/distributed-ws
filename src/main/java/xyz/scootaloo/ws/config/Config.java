@@ -16,10 +16,12 @@ public class Config {
     private static final String RABBIT_URL_KEY  = "rabbit-url";
     private static final String RABBIT_USER_KEY = "rabbit-user";
     private static final String RABBIT_PASS_KEY = "rabbit-pass";
+    private static final String MODE_KEY        = "mode";
 
     private static String rabbitUrl;
     private static String rabbitUser;
     private static String rabbitPass;
+    private static String mode;
 
     public static Future<Void> load(Vertx vertx) {
         var fs = vertx.fileSystem();
@@ -59,6 +61,9 @@ public class Config {
             if (json.containsKey(RABBIT_PASS_KEY)) {
                 rabbitPass = json.getString(RABBIT_PASS_KEY);
             }
+            if (json.containsKey(MODE_KEY)) {
+                mode = json.getString(MODE_KEY, "");
+            }
             return Future.succeededFuture();
         });
     }
@@ -80,5 +85,9 @@ public class Config {
 
     public static String getRabbitPass() {
         return rabbitPass;
+    }
+
+    public static String getMode() {
+        return mode;
     }
 }

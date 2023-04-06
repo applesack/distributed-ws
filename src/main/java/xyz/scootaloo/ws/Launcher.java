@@ -44,9 +44,10 @@ public class Launcher extends AbstractVerticle {
         bus.<JsonObject>consumer(SERVER_COMPLETE, message -> {
             var body = message.body();
             var sc = body.mapTo(ServerComplete.class);
+            var mode = Config.getMode().startsWith("s") ? "单机模式" : "集群模式";
             if (sc.success) {
                 // 端口监听成功
-                System.out.printf("[%d] ==> %s ~ %s\n", sc.port, "ok", joinUrl(sc.port));
+                System.out.printf("[%d] ==> %s ~ %s [%s]\n", sc.port, "ok", joinUrl(sc.port), mode);
                 availablePorts.add(sc.port);
             } else {
                 // 端口监听失败
@@ -61,16 +62,17 @@ public class Launcher extends AbstractVerticle {
         // 启动一个控制服务
         var ctrlFut = launchControlServer(range.start);
 
-        // 启动多个ws服务器
-        var wsFut = launchWsServers(range.start + 1, range.end);
-
-        configFut.compose(v -> ctrlFut.compose(ignore -> wsFut)).onComplete(done -> {
-            if (done.succeeded()) {
-                startPromise.complete();
-            } else {
-                startPromise.fail(done.cause());
-            }
-        });
+        configFut
+                .compose(v ->
+                        ctrlFut.compose(ignore ->
+                                launchWsServers(range.start + 1, range.end)))
+                .onComplete(done -> {
+                    if (done.succeeded()) {
+                        startPromise.complete();
+                    } else {
+                        startPromise.fail(done.cause());
+                    }
+                });
     }
 
     private static Future<HttpServer> launchControlServer(int port) {
