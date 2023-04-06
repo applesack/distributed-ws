@@ -149,6 +149,11 @@
             dom.value = ''
         }
 
+        static clearReceiveBox() {
+            let dom = document.getElementById('receive-input')
+            dom.value = ''
+        }
+
         static changeStateUnConn() {
             this.changeCurUser('未登录')
             this.changeState('未连接')
@@ -219,7 +224,8 @@
         }
 
         static open(url) {
-            close()
+            this.close()
+            Text.clearReceiveBox()
             if ('WebSocket' in window) {
                 try {
                     this.__ws = new WebSocket(url)
@@ -253,7 +259,7 @@
 
         static __bindCallback() {
             this.__ws.onopen = () => {
-                this.send(Text.getTargetText(false), Text.getSendType(false), Text.getSendText(), () => {
+                this.send(Text.getTargetText(false), 0, Text.getSendText(), () => {
                     Text.changeLoginSuccess(this.__username, this.__connUrl)
                 })
             }

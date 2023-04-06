@@ -71,6 +71,8 @@ public class WebSocketServer implements Handler<ServerWebSocket> {
     private void handleP2P(ChatReqMessage req) {
         // 处理点对点消息
         for (String dist : req.destinations) {
+            log.sendLog("接收p2p消息, 用户[%s]发送给[%s], 内容[%s]",
+                    req.username, dist, req.message);
             if (sessions.containsKey(dist)) {
                 var ws = sessions.get(dist);
                 var resp = new ChatRespMessage();
@@ -83,6 +85,9 @@ public class WebSocketServer implements Handler<ServerWebSocket> {
 
     private void handleBroadcast(ChatReqMessage req) {
         // 处理广播消息
+        String users = sessions.keySet().toString();
+        log.sendLog("接收广播消息, 由用户[%s]发起, 当前服务器内的用户[%s], 消息内容[%s]",
+                req.username, users, req.message);
         for (Map.Entry<String, ServerWebSocket> entry : sessions.entrySet()) {
             var key = entry.getKey();
             if (key.equals(req.username)) {
