@@ -1,6 +1,6 @@
 {
-  "rabbit-url": "",
-  "rabbit-user": "",
-  "rabbit-pass": "",
-  "mode": "s"
+  "rabbit-url": "192.168.0.26:5672",
+  "rabbit-user": "admin",
+  "rabbit-pass": "admin",
+  "mode": "d"
 }
