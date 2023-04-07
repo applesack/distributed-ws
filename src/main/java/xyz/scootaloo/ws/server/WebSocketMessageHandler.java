@@ -12,7 +12,6 @@ import xyz.scootaloo.ws.vo.ChatRespMessage;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author AppleSack
