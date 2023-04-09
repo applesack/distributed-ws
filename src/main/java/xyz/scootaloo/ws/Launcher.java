@@ -80,8 +80,9 @@ public class Launcher extends AbstractVerticle {
         var router = Router.router(vertx);
         router.post("/getWsServerList").handler(ctx -> ctx.json(availableWSServerList()));
         router.route().handler(StaticHandler.create()
+                        .setDefaultContentEncoding("UTF-8")
                 .setIndexPage("index.html")
-                .setCachingEnabled(false));
+                .setCachingEnabled(true));
         server.requestHandler(router);
         return server.listen(port);
     }
