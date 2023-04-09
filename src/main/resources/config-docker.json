@@ -1,0 +1,6 @@
+{
+  "rabbit-url": "mq:5672",
+  "rabbit-user": "admin",
+  "rabbit-pass": "admin",
+  "mode": "d"
+}

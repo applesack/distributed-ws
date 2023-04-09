@@ -38,12 +38,18 @@ public class Config {
                 return Future.succeededFuture();
             }
 
+            var profile = "";
             var json = new JsonObject(buff);
-            if (json.containsKey("active")) {
-                var profile = json.getString("active");
+            if (System.getenv("profile") != null) {
+                profile = System.getenv("profile");
+            } else if (json.containsKey("active")) {
+                profile = json.getString("active");
+            }
+            if (profile != null && !profile.isBlank()) {
                 System.out.printf("正在使用%s配置文件\n", profile);
                 return fs.readFile(getConfigFile(profile));
             }
+
             return Future.succeededFuture();
         }).compose(profileBuffer -> {
             // 如果文件不存在，那么buff为空
@@ -69,7 +75,7 @@ public class Config {
     }
 
     private static String getConfigFile(String profile) {
-        if (profile == null) {
+        if (profile == null || profile.isBlank()) {
             return CONFIG_FILE + "." + FILE_FORMAT;
         }
         return CONFIG_FILE + "-" + profile + "." + FILE_FORMAT;

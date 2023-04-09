@@ -3,6 +3,8 @@ MAINTAINER flutterdash@qq.com
 
 WORKDIR ~/server
 
+ENV profile docker
+
 COPY target/distributed-ws-0.1-fat.jar server.jar
 COPY webroot webroot
 
