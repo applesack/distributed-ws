@@ -1,0 +1,64 @@
+<mxfile host="Electron" modified="2023-04-09T13:13:13.096Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="sAQ8ZPkYsnVvpa4J9UUi" version="21.1.2" type="device">
+  <diagram name="Page-1" id="c7558073-3199-34d8-9f00-42111426c3f3">
+    <mxGraphModel dx="1036" dy="654" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="826" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-118" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="tWGsWqbzmGJLBI3ipUI_-100" target="tWGsWqbzmGJLBI3ipUI_-117" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-119" value="2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tWGsWqbzmGJLBI3ipUI_-118" vertex="1" connectable="0">
+          <mxGeometry x="-0.0897" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-100" value="服务器A" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.server_rack;" parent="1" vertex="1">
+          <mxGeometry x="340" y="390" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-123" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.3333333333333333;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="tWGsWqbzmGJLBI3ipUI_-101" target="tWGsWqbzmGJLBI3ipUI_-105" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-124" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="tWGsWqbzmGJLBI3ipUI_-101" target="tWGsWqbzmGJLBI3ipUI_-106" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-125" value="4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tWGsWqbzmGJLBI3ipUI_-124" vertex="1" connectable="0">
+          <mxGeometry x="-0.4425" y="5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-101" value="服务器B&lt;br&gt;" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.server_rack;" parent="1" vertex="1">
+          <mxGeometry x="340" y="520" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-113" value="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.324;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" source="tWGsWqbzmGJLBI3ipUI_-104" target="tWGsWqbzmGJLBI3ipUI_-100" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-104" value="User-1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="190" y="310" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-105" value="User-2" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="190" y="430" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-106" value="User-3" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="190" y="555" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-120" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.008;entryY=0.676;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;" parent="1" source="tWGsWqbzmGJLBI3ipUI_-117" target="tWGsWqbzmGJLBI3ipUI_-100" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-121" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=3;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="tWGsWqbzmGJLBI3ipUI_-117" target="tWGsWqbzmGJLBI3ipUI_-101" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-122" value="3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="tWGsWqbzmGJLBI3ipUI_-121" vertex="1" connectable="0">
+          <mxGeometry x="-0.4158" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-117" value="消息队列" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#B0084D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.mq_broker;" parent="1" vertex="1">
+          <mxGeometry x="500" y="460" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="tWGsWqbzmGJLBI3ipUI_-126" value="&lt;h1&gt;步骤&lt;/h1&gt;&lt;p&gt;1. 一个用户将消息发送到服务器&lt;/p&gt;&lt;p&gt;2. 服务器将消息转发到消息队列&lt;/p&gt;&lt;p&gt;3. 所有服务器从消息队列消费消息&lt;/p&gt;&lt;p&gt;4. 服务器检查当前是否存在目标用户的连接，如果存在则给这些用户推送消息&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="300" y="220" width="280" height="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

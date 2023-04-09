@@ -51,6 +51,10 @@ java -jar distributed-ws-0.1-fat.jar
 ```shell
 docker build -t fd/ws-app . 
 ```
+或者使用docker-compose
+```shell
+docker-compose up -d
+```
 
 
 ### TODO
