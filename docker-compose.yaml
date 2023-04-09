@@ -1,0 +1,26 @@
+version: '2'
+services:
+  ws-server:
+    build: .
+    depends_on:
+      - mq
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+      - "7002:7002"
+      - "7003:7003"
+      - "7004:7004"
+      - "7005:7005"
+      - "7006:7006"
+      - "7007:7007"
+      - "7008:7008"
+      - "7009:7009"
+      - "7010:7010"
+  mq:
+    image: "rabbitmq:management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin

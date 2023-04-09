@@ -32,13 +32,25 @@ todo
 
 ### 配置和部署
 
-#### maven编译
+项目使用maven作为构架工具，jdk版本为17，依赖中间件为rabbitmq，在resource目录下的config-dev中配置rabbitmq的路径和账号信息，账号需要具有管理员权限
 
-todo
+#### maven编译运行
+
+```shell
+mvn clean
+mvn install
+mvn package
+cd target
+java -jar distributed-ws-0.1-fat.jar
+```
 
 #### docker
 
-todo
+先执行maven打包，然后执行下面的命令构建
+
+```shell
+docker build -t fd/ws-app . 
+```
 
 
 ### TODO

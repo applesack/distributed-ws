@@ -1,11 +1,11 @@
 FROM springci/graalvm-ce:java17-0.12.x
 MAINTAINER flutterdash@qq.com
 
-ENV SERVER_PATH ~/server
+WORKDIR ~/server
 
-RUN mkdir $SERVER_PATH
-WORKDIR $SERVER_PATH
+COPY target/distributed-ws-0.1-fat.jar server.jar
+COPY webroot webroot
 
-EXPOSE 7000 7001
+EXPOSE 7000 7001 7002 7003 7004 7005 7006 7007 7008 7009 7010
 
-CMD []
+CMD ["java", "-jar", "./server.jar"]
