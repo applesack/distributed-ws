@@ -14,7 +14,6 @@ import xyz.scootaloo.ws.server.WebSocketMessageHandler;
 import xyz.scootaloo.ws.vo.ChatAct;
 import xyz.scootaloo.ws.vo.ChatReqMessage;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -34,6 +33,12 @@ public class DistributedHandler extends WebSocketMessageHandler {
         options.setUser(Config.getRabbitUser());
         options.setPassword(Config.getRabbitPass());
         options.setAddresses(List.of(Address.parseAddress(Config.getRabbitUrl())));
+
+        // 重连策略
+        options.setAutomaticRecoveryEnabled(false);
+        options.setReconnectAttempts(Integer.MAX_VALUE);
+        options.setReconnectInterval(500);
+
         client = RabbitMQClient.create(vertx, options);
 
         // 声明一个扇形交换机和一个队列，并让队列和交换机绑定

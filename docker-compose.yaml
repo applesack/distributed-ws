@@ -1,4 +1,6 @@
-version: '2'
+version: '3'
+networks:
+  app-net:
 services:
   ws-server:
     build: .
@@ -16,6 +18,10 @@ services:
       - "7008:7008"
       - "7009:7009"
       - "7010:7010"
+    links:
+      - mq
+    networks:
+      - app-net
   mq:
     image: "rabbitmq:management"
     ports:
@@ -24,3 +30,5 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
+    networks:
+      - app-net
