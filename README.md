@@ -5,6 +5,8 @@
 假设现在有服务器A和服务器B，用户a连接了A，用户b连接了B，a想给b发送消息，但是b不能收到消息，因为服务器A和B的session并不共享，也就是连接不同服务器的用户不能相互通信。
 
 
+
+
 ### 解决方案
 
 这里使用一种比较直观的方式来实现分布式websocket，需要引入消息中间件，同时所有的websocket服务器都能连接到同一个消息中间件；
@@ -19,15 +21,26 @@
 
 在这个模式中，点对点和广播都使用了同一种方式处理。在处理点对点时，消息会被传播到所有的队列，只不过只有存在目标用户的服务器会处理消息。在广播模式下，所有的服务器都会处理消息。
 
+![示意图](https://github.com/applesack/distributed-ws/blob/master/image/diagram.png)
+
+
 
 ### 方案存在的问题
 
 在点对点操作时，消息仍然会被广播到每一个消息队列，集群中的服务越多，利用率越低。
 
 
+
+
 ### 演示
 
-todo
+按照配置和部署章节完成服务启动后，在浏览器输入地址`http://localhost:7000`打开网页，按照下图进行操作。
+
+其中服务端默认会提高10个ws服务器，端口从`7001`至`7010`，例如`ws://localhost:7003`
+
+![示意图](https://github.com/applesack/distributed-ws/blob/master/image/demonstraion.png)
+
+
 
 
 ### 配置和部署
@@ -55,6 +68,7 @@ docker build -t fd/ws-app .
 ```shell
 docker-compose up -d
 ```
+
 
 
 ### TODO
